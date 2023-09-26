@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  nodejs:
+    image: node:20-alpine
+    working_dir: /home/node/app
+    ports: 
+      - "3000:3000"
+    volumes: 
+      - ./microservicio:/home/node/app
+    command: npm start
+
