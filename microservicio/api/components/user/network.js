@@ -31,7 +31,7 @@ function get(req, res){
 }
 
 function upsert (req, res){
-    Controller.upsert(req.params.id, req.params.data)
+    Controller.upsert(req.body)
     .then((updated)=>{
         response.sucess(req,res, updated, 200)
     })
