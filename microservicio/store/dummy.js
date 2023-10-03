@@ -14,19 +14,15 @@ async function get(table, id){
     return col.filter(item => item.id == id)[0] || null;
 }
 async function upsert(table, data){
-    // if(table=="user"){
-    //     updateData = db.user.find(data=> data.id == id);
-    //     if(updateData){
-    //         updateData.name = data;
-    //     }
-    // }
-    // return updateData;
-    return db[table].push(data);
+    db[table].push(data)
+    return get(table, data.id)
 }
 async function remove(table, id){
     if(table=="user"){
         removed = db.user.find(data=> data.id == id);
-        db.user = db.user.find(data=> data.id !== id);
+        removedIndex = db.user.findIndex(data=> data.id == id);
+        // db.user = db.user.find(data=> data.id !== id);
+        db.user.splice(removedIndex,1)
     }   
     return removed;
 }
