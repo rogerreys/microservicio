@@ -1,6 +1,8 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
 var bodyParser = require('body-parser')
 
+const swaggerDoc = require('./openapi_swagger.json');
 const config = require('../config.js');
 const user = require('./components/user/network.js');
 
@@ -12,6 +14,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 //ROUTER
 app.use('/api/user', user );
+// Documentation api user
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 
 app.listen(config.api.port, ()=>{
