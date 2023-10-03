@@ -1,7 +1,9 @@
+// LIBRERIAS
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 var bodyParser = require('body-parser')
 
+// RECURSOS
 const swaggerDoc = require('./openapi_swagger.json');
 const config = require('../config.js');
 const user = require('./components/user/network.js');
