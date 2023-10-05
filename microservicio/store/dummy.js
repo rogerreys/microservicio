@@ -19,6 +19,9 @@ async function upsert(table, data){
         db[table] = []
     }
     db[table].push(data)
+    // if(table=="auth"){
+    //     console.log(db["auth"])
+    // }
     return get(table, data.id)
 }
 async function remove(table, id){
@@ -30,7 +33,11 @@ async function remove(table, id){
     }   
     return removed;
 }
-
+async function query(table, data){
+    list_query = await list(table);
+    key = Object.keys(data)[0]
+    return list_query.find(q => q[key] == data[key])
+}
 module.exports = {
-    list, get, upsert, remove
+    list, get, upsert, remove, query
 }

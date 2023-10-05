@@ -1,3 +1,5 @@
+const jwt = require("../../../auth/index")
+
 const TABLA = "auth"
 module.exports = function (injectedStore){
     let store = injectedStore;
@@ -19,7 +21,16 @@ module.exports = function (injectedStore){
         return store.upsert(TABLA, authData);
     }
 
+    async function login(username, password){
+        const data = await store.query(TABLA, {username: username});
+        if(data.password == password){
+            // Generate token
+            return jwt.sign(data)
+        }
+        // return data
+    }
     return {
-        upsert
+        upsert,
+        login
     }
 }

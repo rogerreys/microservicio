@@ -10,3 +10,7 @@ https://www.npmjs.com/package/swagger-ui-express
 https://jwt.io/
 Instalacion y documentacion de uso
 https://www.npmjs.com/package/express-jwt
+
+
+### JSONWebTokern
+https://www.npmjs.com/package/jsonwebtoken
