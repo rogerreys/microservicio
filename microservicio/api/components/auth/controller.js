@@ -1,4 +1,6 @@
+const auth = require(".");
 const jwt = require("../../../auth/index")
+var bcrypt = require('bcryptjs');
 
 const TABLA = "auth"
 module.exports = function (injectedStore){
@@ -15,7 +17,11 @@ module.exports = function (injectedStore){
             authData.username = data.username;
         }
         if(data.password){
-            authData.password = data.password;
+            bcrypt.genSalt(5, (err, salt) => {
+                bcrypt.hash(data.password, salt, (err, hash)=>{
+                    authData.password = hash
+                });
+            });
         }
 
         return store.upsert(TABLA, authData);
@@ -23,7 +29,7 @@ module.exports = function (injectedStore){
 
     async function login(username, password){
         const data = await store.query(TABLA, {username: username});
-        if(data.password == password){
+        if(bcrypt.compareSync(password, data.password)){
             // Generate token
             return jwt.sign(data)
         }
