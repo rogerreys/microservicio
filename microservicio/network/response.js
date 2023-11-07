@@ -1,6 +1,6 @@
-exports.sucess = (req,res, message, status)=>{
+exports.sucess = (req, res, message, status) => {
     let statusCode = status || 200;
-    let statusMessage = message  || '';
+    let statusMessage = message || '';
 
     res.status(status).send({
         error: false,
@@ -8,9 +8,9 @@ exports.sucess = (req,res, message, status)=>{
         body: statusMessage,
     })
 }
-exports.error = (req,res, message, status)=>{
+exports.error = (req, res, message, status) => {
     let statusCode = status || 500;
-    let statusMessage = message  || 'Internal Server Error';
+    let statusMessage = message || 'Internal Server Error';
 
     res.status(status).send({
         error: false,

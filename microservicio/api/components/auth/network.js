@@ -7,18 +7,18 @@ const router = express.Router();
 router.post("/login", login);
 router.get("/debug", debug);
 
-function login (req, res){
+function login(req, res) {
     Controller.login(req.body.username, req.body.password)
-    .then((list)=>{
-        response.sucess(req,res, list, 200)
-    })
-    .catch((error)=>{
-        response.error(req,res,'Informacion invalida', 400)
-    });
+        .then((list) => {
+            response.sucess(req, res, list, 200)
+        })
+        .catch((error) => {
+            response.error(req, res, 'Informacion invalida', 400)
+        });
 }
-function debug(req, res){
+function debug(req, res) {
     var details = {
-        'id':"6",
+        'id': "6",
         'name': 'Eli',
         'username': 'ei!',
         'password': 'test'
