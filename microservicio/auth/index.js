@@ -11,6 +11,11 @@ const check = {
     own: function (req, owner) {
         const decoded = decodeHeader(req);
         console.log("decoded: ", decoded);
+
+        // COMPORTAR SI ES O NO PROPIO
+        if(decoded.id!==owner){
+            throw new Error("No puede editar")
+        }
     }
 }
 
@@ -35,7 +40,7 @@ function verify(token) {
 function decodeHeader(req) {
     const authorization = req.headers.authorization || '';
     const token = getToken(authorization);
-    const decode = verify(token);
+    const decode = verify(token.trim());
     req.user = decode
     return decode;
 }
