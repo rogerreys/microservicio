@@ -7,8 +7,8 @@ const router = express.Router();
 router.get("/", list);
 router.get("/:id", get);
 router.post("/", upsert);
-router.put("/", upsert);
 router.delete("/:id", remove);
+router.put("/", update);
 
 function list (req, res){
     Controller.list()
@@ -32,8 +32,8 @@ function get(req, res){
 
 function upsert (req, res){
     Controller.upsert(req.body)
-    .then((updated)=>{
-        response.sucess(req,res, updated, 200)
+    .then((upsert)=>{
+        response.sucess(req,res, upsert, 200)
     })
     .catch((err)=>{
         response.error(req,res,err,500)
@@ -50,5 +50,14 @@ function remove(req, res){
     });    
 }
 
+function update(req, res){
+    Controller.update(req.body)
+    .then((update)=>{
+        response.sucess(req,res,update,200)
+    })
+    .catch((err)=>{
+        response.error(req,res, err, 500)
+    });
+}
 
 module.exports = router;

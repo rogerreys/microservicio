@@ -11,26 +11,26 @@ import('nanoid').then(module => {
 
 const TABLA = 'user';
 
-module.exports = function(injectedStore){
+module.exports = function (injectedStore) {
     const store = injectedStore;
 
-    if(!store){
+    if (!store) {
         store = require("../../../store/dummy");
     }
-    
+
     function list() {
         return store.list(TABLA);
     }
-    function get(id){
+    function get(id) {
         return store.get(TABLA, id)
     }
-    async function upsert(body){
+    async function upsert(body) {
         const data = {
             user: body.name,
             username: body.username
         }
         data.id = (body.id) ? body.id : nanoid();
-        if(body.password || body.username){
+        if (body.password || body.username) {
             await auth.upsert({
                 id: data.id,
                 username: data.username,
@@ -39,14 +39,18 @@ module.exports = function(injectedStore){
         }
         return store.upsert(TABLA, data)
     }
-    function remove(id){
+    function remove(id) {
         return store.remove(TABLA, id)
     }
- 
+    function update(data) {
+        return store.update(TABLA, data)
+    }
+
     return {
         list,
         get,
         upsert,
-        remove
+        remove,
+        update
     }
 }
