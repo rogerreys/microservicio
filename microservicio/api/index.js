@@ -6,7 +6,7 @@ var bodyParser = require('body-parser')
 // RECURSOS
 const swaggerDoc = require('./openapi_swagger.json');
 const config = require('../config.js');
-const user = require('./components/user/network.js');
+const user = require('./components/user/network');
 const auth = require('./components/auth/network');
 const errors = require('../network/errors.js');
 

@@ -1,3 +1,4 @@
 # Dependency directories
 microservicio/node_modules/
 microservicio/node_modules/*
+database/

@@ -10,3 +10,17 @@ services:
       - ./microservicio:/home/node/app
     command: npm start
 
+  my_mysql:
+    image: mysql:latest
+    volumes:
+      - ./database/mysql:/var/lib/mysql/
+    restart: always
+    environment:
+      MYSQL_DATABASE: maindb
+      MYSQL_USER: dbuser
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - 33067:3306
+    expose: 
+      - 33067
