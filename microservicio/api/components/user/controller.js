@@ -26,8 +26,8 @@ module.exports = function (injectedStore) {
     }
     async function upsert(body) {
         const data = {
-            user: body.name,
-            username: body.username
+            name: body.name,
+            nickname: body.username
         }
         data.id = (body.id) ? body.id : nanoid();
         if (body.password || body.username) {

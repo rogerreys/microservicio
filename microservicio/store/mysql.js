@@ -32,30 +32,71 @@ function handleConnection() {
 
 handleConnection();
 
-function list(table){
-    return new Promise( (resolve, reject)=>{
-        connection.query(`SELECT * FROM ${table}`, (err, data)=>{
-            if(err){
-                console.error("[ERROR LIST] "+err);
+function list(table) {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table}`, (err, data) => {
+            if (err) {
+                console.error("[ERROR LIST] " + err);
                 return reject(err);
             } else {
                 resolve(data)
-            }      
+            }
         });
-    } )
+    })
 }
 
-function get(table, id){
-    return new Promise( (resolve, reject)=>{
-        connection.query(`SELECT * FROM ${table} WHERE id=${id}`, (err, data)=>{
-            if(err){
-                console.error("[ERROR LIST] "+err);
+function get(table, id) {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} WHERE id=${id}`, (err, data) => {
+            if (err) {
+                console.error("[ERROR LIST] " + err);
                 return reject(err);
             } else {
                 resolve(data)
-            }      
+            }
         });
-    } )
+    })
 }
 
-module.exports = { list, get }
+function insert(table, data) {
+    return new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
+            if (err) {
+                console.error("[ERROR LIST] " + err);
+                return reject(err);
+            } else {
+                resolve(result)
+            }
+        });
+    })
+}
+
+function update(table, data) {
+    return new Promise((resolve, reject) => {
+        connection.query(`UPDATE ${table} SET ? WHERE id = ?`, [data, data.id], (err, result) => {
+            if (err) {
+                console.error("[ERROR LIST] " + err);
+                return reject(err);
+            } else {
+                resolve(result)
+            }
+        });
+    })
+}
+
+function upsert(table, data) {
+    connection.query(`SELECT * FROM ${table} WHERE id=${data.id}`, (err, reslt) => {
+        if (err) {
+            console.error("[ERROR LIST] " + err);
+            return reject(err);
+        } else {
+            if (reslt[0] && reslt[0].id) {
+                this.update(table, data);
+            } else {
+                this.insert(table, data);
+            }
+        }
+    });
+}
+
+module.exports = { list, get, insert, update, upsert }

@@ -23,7 +23,6 @@ module.exports = function (injectedStore) {
                 });
             });
         }
-
         return store.upsert(TABLA, authData);
     }
 
