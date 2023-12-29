@@ -6,7 +6,7 @@ const TABLA = "auth"
 module.exports = function (injectedStore) {
     let store = injectedStore;
     if (!store) {
-        store = require('../../../store/dummy');
+        store = require('../../../store/mysql');
     }
 
     async function upsert(data) {
@@ -17,20 +17,24 @@ module.exports = function (injectedStore) {
             authData.username = data.username;
         }
         if (data.password) {
-            bcrypt.genSalt(5, (err, salt) => {
-                bcrypt.hash(data.password, salt, (err, hash) => {
-                    authData.password = hash
-                });
-            });
+            const salt = await bcrypt.genSalt(5);
+            const secPass = await bcrypt.hash(data.password, salt);
+            authData.password = secPass;
+            // bcrypt.genSalt(5, (err, salt) => {
+            //     bcrypt.hash(data.password, salt, function (err, hash) {
+            //             authData.password = hash
+            //     });
+            // });
         }
         return store.upsert(TABLA, authData);
     }
 
     async function login(username, password) {
-        const data = await store.query(TABLA, { username: username });
-        if (bcrypt.compareSync(password, data.password)) {
+        const data = await store.get(TABLA, { username: username });
+
+        if (bcrypt.compareSync(password, data[0].password)) {
             // Generate token
-            return jwt.sign(data)
+            return jwt.sign({ "id": data[0].id, "username": data[0].username, "password": data[0].password })
         }
         // return data
     }

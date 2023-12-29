@@ -45,9 +45,9 @@ function list(table) {
     })
 }
 
-function get(table, id) {
+function get(table, data) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE id=${id}`, (err, data) => {
+        connection.query(`SELECT * FROM ${table} WHERE ?`, data, (err, data) => {
             if (err) {
                 console.error("[ERROR LIST] " + err);
                 return reject(err);
@@ -85,12 +85,12 @@ function update(table, data) {
 }
 
 function upsert(table, data) {
-    connection.query(`SELECT * FROM ${table} WHERE id=${data.id}`, (err, reslt) => {
+    connection.query(`SELECT * FROM ${table} WHERE ?`, data.id, (err, reslt) => {
         if (err) {
             console.error("[ERROR LIST] " + err);
             return reject(err);
         } else {
-            if (reslt[0] && reslt[0].id) {
+            if (reslt == null && (reslt[0] && reslt[0].id)) {
                 this.update(table, data);
             } else {
                 this.insert(table, data);
