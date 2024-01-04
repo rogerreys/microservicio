@@ -14,9 +14,12 @@ const check = {
         // console.log("decoded: ", decoded);
 
         // COMPORTAR SI ES O NO PROPIO
-        if(decoded.id!==owner){
+        if (decoded.id !== owner) {
             throw error("No puede editar", 401);
         }
+    },
+    logged: function (req, owner) {
+        const decoded = decodeHeader(req);
     }
 }
 

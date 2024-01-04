@@ -10,11 +10,15 @@ module.exports = function checkAuth(action) {
                 next(); // Si no da error, ejecuta el siguiente codigo
                 break;
             case 'upsert':
-                if (req.body.name!==null && req.body.username!=null && req.body.password!=null){
+                if (req.body.name !== null && req.body.username != null && req.body.password != null) {
                     next()
-                } else{
+                } else {
                     throw error("No existe el nombre", 401);
                 }
+                break;
+            case 'follow':
+                auth.check.logged(req);
+                next(); // Si no da error, ejecuta el siguiente codigo
                 break;
             default:
                 next()

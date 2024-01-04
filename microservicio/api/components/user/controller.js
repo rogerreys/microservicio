@@ -33,7 +33,7 @@ module.exports = function (injectedStore) {
         if (body.password || body.username) {
             await auth.upsert({
                 id: data.id,
-                username: data.username,
+                username: body.username,
                 password: body.password
             })
         }
@@ -45,12 +45,19 @@ module.exports = function (injectedStore) {
     function update(data) {
         return store.update(TABLA, data)
     }
+    function follow(from, to) {
+        return store.insert(TABLA+"_follow", {
+            user_from: from,
+            user_to: to
+        })
+    }
 
     return {
         list,
         get,
         upsert,
         remove,
-        update
+        update,
+        follow
     }
 }

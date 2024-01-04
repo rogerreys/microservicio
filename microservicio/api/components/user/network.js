@@ -10,6 +10,7 @@ router.get("/:id", get);
 router.post("/", secure("upsert"), upsert);
 router.delete("/:id", remove);
 router.put("/", secure(), update);
+router.post("/follow/:id",secure('follow') , follow);
 
 function list(req, res, next) {
     Controller.list()
@@ -49,6 +50,15 @@ function update(req, res, next) {
             response.sucess(req, res, update, 200)
         })
         .catch(next);
+}
+
+function follow(req, res, next) {
+    console.log("user_id: "+req.user.id,"param_id: "+ req.params.id)
+    Controller.follow(req.user.id, req.params.id)
+    .then(data=>{
+        response.sucess(req, res, data, 201);
+    })
+    .catch(next)
 }
 
 module.exports = router;
