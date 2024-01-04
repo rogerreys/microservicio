@@ -29,14 +29,18 @@ module.exports = function (injectedStore) {
         return store.upsert(TABLA, authData);
     }
 
-    async function login(username, password) {
-        const data = await store.get(TABLA, { username: username });
-
-        if (bcrypt.compareSync(password, data[0].password)) {
-            // Generate token
-            return jwt.sign({ "id": data[0].id, "username": data[0].username, "password": data[0].password })
-        }
-        // return data
+    function login(username, password) {
+        return new Promise((resolve, reject) => {
+            store.get(TABLA, { username: username }).then((result) => {
+                if (bcrypt.compareSync(password, result[0].password)) {
+                    // Generate token
+                    token = jwt.sign({ "id": result[0].id, "username": result[0].username, "password": result[0].password })
+                    resolve(token)
+                }
+            }).catch((err) => {
+                return reject(err)
+            });
+        })
     }
     return {
         upsert,

@@ -47,12 +47,12 @@ function list(table) {
 
 function get(table, data) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE ?`, data, (err, data) => {
+        connection.query(`SELECT * FROM ${table} WHERE ?`, data, (err, result) => {
             if (err) {
                 console.error("[ERROR LIST] " + err);
                 return reject(err);
             } else {
-                resolve(data)
+                resolve(result)
             }
         });
     })
