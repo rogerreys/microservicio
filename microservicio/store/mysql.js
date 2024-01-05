@@ -45,9 +45,17 @@ function list(table) {
     })
 }
 
-function get(table, data) {
+function get(table, data, join) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE ?`, data, (err, result) => {
+        let val_join = "";
+        if (join) {
+            const table = Object.keys(join)[0];
+            const key = join[table] //join[key]
+            const val = [Object.keys(key)[0]]
+
+            val_join = `JOIN ${table} ON ${val}=${table}.id`
+        }
+        connection.query(`SELECT * FROM ${table} ${val_join} WHERE ?`, data, (err, result) => {
             if (err) {
                 console.error("[ERROR LIST] " + err);
                 return reject(err);

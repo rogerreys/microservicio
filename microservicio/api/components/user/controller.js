@@ -46,10 +46,19 @@ module.exports = function (injectedStore) {
         return store.update(TABLA, data)
     }
     function follow(from, to) {
-        return store.insert(TABLA+"_follow", {
+        return store.insert(TABLA + "_follow", {
             user_from: from,
             user_to: to
         })
+    }
+    function get_follows(from) {
+        join = {}
+        join[TABLA] = { "user_to" : from }
+
+        result = store.get(TABLA + "_follow", {
+            user_from: from
+        }, join)
+        return result
     }
 
     return {
@@ -58,6 +67,7 @@ module.exports = function (injectedStore) {
         upsert,
         remove,
         update,
-        follow
+        follow,
+        get_follows
     }
 }
