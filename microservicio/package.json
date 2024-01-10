@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --legacy-watch ./api/index.js"
+    "start": "nodemon --legacy-watch ./mysql/index.js"
   },
   "author": "Roger",
   "license": "ISC",
