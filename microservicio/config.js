@@ -12,6 +12,7 @@ module.exports = {
         database: process.env.DATABASE || 'maindb'
     },
     mysqlService:{
+        host: process.env.HOST || 'nodejs2',
         port: process.env.MYSQL_SRV_PORT || "3001"
     }
 }

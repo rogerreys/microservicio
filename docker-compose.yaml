@@ -1,15 +1,31 @@
 version: "3"
 
 services:
-  nodejs:
+  nodejs1:
     image: node:20-alpine
     working_dir: /home/node/app
     ports: 
       - "3000:3000"
+    volumes: 
+      - ./microservicio:/home/node/app
+    command: npm run-script start_service_web
+    expose: 
+      - 3000
+    networks:
+      - backend
+
+  nodejs2:
+    image: node:20-alpine
+    working_dir: /home/node/app
+    ports:
       - "3001:3001"
     volumes: 
       - ./microservicio:/home/node/app
-    command: npm start
+    command: npm run-script start_service_bdd
+    expose: 
+      - 3001
+    networks:
+      - backend
 
   my_mysql:
     image: mysql:latest
@@ -25,3 +41,9 @@ services:
       - 33067:3306
     expose: 
       - 33067
+    networks:
+      - backend
+
+networks:
+  backend:
+    driver: bridge
